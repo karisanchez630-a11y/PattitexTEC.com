@@ -1,0 +1,16 @@
+{
+  "juegos": [
+    {
+      "nombre": "Emoji Match",
+      "emoji": "😃",
+      "descripcion": "Alinea todos los emojis para ganar puntos.",
+      "link": "https://www.mediafire.com/file/zbulmzl61jjx2dg/_Emoji_match_19398572.apk/file"
+    },
+    {
+      "nombre": "Próximo Proyecto",
+      "emoji": "🎮",
+      "descripcion": "Desarrollado por PattitexTEC Labs. Muy pronto.",
+      "link": "#"
+    }
+  ]
+}
