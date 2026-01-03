@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PattitexTEC | App Hub</title>
+    <style>
+        :root {
+            --bg: #050505;
+            --primary: #87CEEB; /* Celeste */
+            --secondary: #4682B4; /* Azul */
+            --tec-t: #ff0000; --tec-e: #00ff00; --tec-c: #0000ff;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+        }
+
+        header {
+            padding: 30px 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, #111, #000);
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 900; letter-spacing: 2px; }
+        .t { color: var(--tec-t); } .e { color: var(--tec-e); } .c { color: var(--tec-c); }
+
+        .container { max-width: 1100px; margin: auto; padding: 20px; }
+        
+        .stats {
+            background: #111; padding: 10px 20px; border-radius: 10px;
+            display: inline-block; margin-bottom: 30px; border: 1px solid #333;
+            font-size: 0.8rem; color: var(--primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #111;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #222;
+            transition: 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(70, 130, 180, 0.3);
+        }
+
+        .emoji-box {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
+        .card-title { font-size: 1.4rem; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
+        .card-desc { color: #888; font-size: 0.9rem; line-height: 1.4; margin-bottom: 25px; min-height: 40px; }
+
+        .btn {
+            display: block;
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-active {
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: #000;
+        }
+
+        .btn-active:hover {
+            background: #fff;
+            box-shadow: 0 0 20px #fff;
+        }
+
+        .btn-disabled {
+            background: #222;
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        footer { padding: 50px; text-align: center; color: #333; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">PATTITEX<span class="t">T</span><span class="e">E</span><span class="c">C</span></div>
+        <p style="color: #666; font-size: 0.8rem; margin-top: 10px;">SOFTWARE & GAMES HUB</p>
+    </header>
+
+    <div class="container">
+        <div class="stats" id="app-count">Cargando catálogo...</div>
+        
+        <div id="games-grid" class="grid">
+            </div>
+    </div>
+
+    <footer>
+        PROPIEDAD DE PATTITEXTEC INDUSTRY &copy; 2026<br>
+        DESARROLLADO PARA LA COMUNIDAD INSANA
+    </footer>
+
+    <script>
+        async function loadApps() {
+            try {
+                const response = await fetch('app.json');
+                const data = await response.json();
+                const grid = document.getElementById('games-grid');
+                const counter = document.getElementById('app-count');
+                
+                grid.innerHTML = '';
+                counter.innerText = `APLICACIONES DISPONIBLES: ${data.juegos.length}`;
+
+                data.juegos.forEach(app => {
+                    const isAvailable = app.link !== "#";
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    
+                    card.innerHTML = `
+                        <div class="emoji-box">${app.emoji}</div>
+                        <div class="card-title">${app.nombre}</div>
+                        <div class="card-desc">${app.descripcion}</div>
+                        <a href="${app.link}" 
+                           class="btn ${isAvailable ? 'btn-active' : 'btn-disabled'}" 
+                           ${isAvailable ? 'target="_blank"' : ''}>
+                           ${isAvailable ? 'DESCARGAR APK' : 'PRÓXIMAMENTE'}
+                        </a>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (e) {
+                console.error(e);
+                document.getElementById('games-grid').innerHTML = "<h2>Error al cargar PattitexTEC Hub</h2>";
+            }
+        }
+
+        loadApps();
+    </script>
+</body>
+</html>
+
